@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-using YG;
 
 public class DailyGiftManager : MonoBehaviour
 {

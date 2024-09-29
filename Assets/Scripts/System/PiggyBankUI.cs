@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using YG;
 
 public class PiggyBankUI : MonoBehaviour
 {

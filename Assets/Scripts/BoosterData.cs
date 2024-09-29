@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using YG;
 
 public class BoosterData : MonoBehaviour
 {
