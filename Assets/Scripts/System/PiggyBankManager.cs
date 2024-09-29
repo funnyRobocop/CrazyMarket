@@ -25,31 +25,31 @@ public class PiggyBankManager : MonoBehaviour
 
     private void Start()
     {
-        YandexGame.GetDataEvent += OnDataLoaded;
+        SDKWrapper.GetDataEvent += OnDataLoaded;
     }
 
     private void OnDestroy()
     {
-        YandexGame.GetDataEvent -= OnDataLoaded;
+        SDKWrapper.GetDataEvent -= OnDataLoaded;
     }
 
     private void OnDataLoaded()
     {
-        // Данные уже загружены в YandexGame.savesData
+        // Данные уже загружены в SDKWrapper.savesData
         OnCoinsChanged?.Invoke();
     }
 
     public void AddCoinsForLevelCompletion()
     {
-        YandexGame.savesData.piggyBankCoins += coinsPerLevel;
-        YandexGame.SaveProgress();
+        SDKWrapper.savesData.piggyBankCoins += coinsPerLevel;
+        SDKWrapper.SaveProgress();
         OnCoinsChanged?.Invoke();
-        Debug.Log($"Coins added to piggy bank. Current coins: {YandexGame.savesData.piggyBankCoins}");
+        Debug.Log($"Coins added to piggy bank. Current coins: {SDKWrapper.savesData.piggyBankCoins}");
     }
 
     public bool CanCollectCoins()
     {
-        return YandexGame.savesData.piggyBankCoins >= coinsToCollect;
+        return SDKWrapper.savesData.piggyBankCoins >= coinsToCollect;
     }
 
    public void CollectCoins()
@@ -57,7 +57,7 @@ public class PiggyBankManager : MonoBehaviour
     if (CanCollectCoins())
     {
         // Вызываем рекламу перед сбором монет
-        YandexGame.RewVideoShow(0);
+        SDKWrapper.RewVideoShow(0);
     }
     else
     {
@@ -69,10 +69,10 @@ public class PiggyBankManager : MonoBehaviour
     {
     if (id == 0) // Проверяем, что это наша реклама (id = 0)
     {
-        int coinsToAdd = YandexGame.savesData.piggyBankCoins;
-        YandexGame.savesData.coins += coinsToAdd;
-        YandexGame.savesData.piggyBankCoins = 0;
-        YandexGame.SaveProgress();
+        int coinsToAdd = SDKWrapper.savesData.piggyBankCoins;
+        SDKWrapper.savesData.coins += coinsToAdd;
+        SDKWrapper.savesData.piggyBankCoins = 0;
+        SDKWrapper.SaveProgress();
         OnCoinsChanged?.Invoke();
         Debug.Log($"Collected {coinsToAdd} coins from piggy bank after watching ad.");
     }
@@ -80,17 +80,17 @@ public class PiggyBankManager : MonoBehaviour
 
 private void OnEnable()
 {
-    YandexGame.RewardVideoEvent += OnRewardedAdFinished;
+    SDKWrapper.RewardVideoEvent += OnRewardedAdFinished;
 }
 
 private void OnDisable()
 {
-    YandexGame.RewardVideoEvent -= OnRewardedAdFinished;
+    SDKWrapper.RewardVideoEvent -= OnRewardedAdFinished;
 }
 
     public int GetCurrentCoins()
     {
-        return YandexGame.savesData.piggyBankCoins;
+        return SDKWrapper.savesData.piggyBankCoins;
     }
 
     public int GetCoinsToCollect()
@@ -100,8 +100,8 @@ private void OnDisable()
 
     public void ResetPiggyBank()
     {
-        YandexGame.savesData.piggyBankCoins = 0;
-        YandexGame.SaveProgress();
+        SDKWrapper.savesData.piggyBankCoins = 0;
+        SDKWrapper.SaveProgress();
         OnCoinsChanged?.Invoke();
         Debug.Log("Piggy bank reset");
     }

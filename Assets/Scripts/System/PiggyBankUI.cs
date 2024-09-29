@@ -55,7 +55,7 @@ public class PiggyBankUI : MonoBehaviour
             audioSource = gameObject.AddComponent<AudioSource>();
         }
         // Установка громкости в соответствии с настройками игрока
-        audioSource.volume = YandexGame.savesData.soundVolume;
+        audioSource.volume = SDKWrapper.savesData.soundVolume;
     }
 
     private void SetupButtons()

@@ -13,10 +13,10 @@ public class SoundsSlider : MonoBehaviour
     private void Start()
     {
         // Подписываемся на событие загрузки данных
-        YandexGame.GetDataEvent += LoadSettings;
+        SDKWrapper.GetDataEvent += LoadSettings;
 
         // Если данные уже загружены, сразу применяем настройки
-        if (YandexGame.SDKEnabled)
+        if (SDKWrapper.SDKEnabled)
         {
             LoadSettings();
         }
@@ -29,11 +29,11 @@ public class SoundsSlider : MonoBehaviour
     private void LoadSettings()
     {
         // Загружаем сохраненные настройки
-        float soundVolume = YandexGame.savesData.soundVolume;
-        float musicVolume = YandexGame.savesData.musicVolume;
+        float soundVolume = SDKWrapper.savesData.soundVolume;
+        float musicVolume = SDKWrapper.savesData.musicVolume;
 
         // Если это первый запуск (значения не были сохранены), используем значение по умолчанию
-        if (soundVolume == 0 && musicVolume == 0 && !YandexGame.savesData.isFirstSession)
+        if (soundVolume == 0 && musicVolume == 0 && !SDKWrapper.savesData.isFirstSession)
         {
             soundVolume = DefaultVolume;
             musicVolume = DefaultVolume;
@@ -48,10 +48,10 @@ public class SoundsSlider : MonoBehaviour
         UpdateMusicVolume(musicVolume);
 
         // Отмечаем, что это уже не первый запуск
-        if (YandexGame.savesData.isFirstSession)
+        if (SDKWrapper.savesData.isFirstSession)
         {
-            YandexGame.savesData.isFirstSession = false;
-            YandexGame.SaveProgress();
+            SDKWrapper.savesData.isFirstSession = false;
+            SDKWrapper.SaveProgress();
         }
     }
 
@@ -61,8 +61,8 @@ public class SoundsSlider : MonoBehaviour
         {
             SoundSource.volume = volume;
         }
-        YandexGame.savesData.soundVolume = volume;
-        YandexGame.SaveProgress();
+        SDKWrapper.savesData.soundVolume = volume;
+        SDKWrapper.SaveProgress();
     }
 
     private void UpdateMusicVolume(float volume)
@@ -71,14 +71,14 @@ public class SoundsSlider : MonoBehaviour
         {
             MusicSource.volume = volume;
         }
-        YandexGame.savesData.musicVolume = volume;
-        YandexGame.SaveProgress();
+        SDKWrapper.savesData.musicVolume = volume;
+        SDKWrapper.SaveProgress();
     }
 
     private void OnDestroy()
     {
         // Отписываемся от событий
-        YandexGame.GetDataEvent -= LoadSettings;
+        SDKWrapper.GetDataEvent -= LoadSettings;
         if (SoundSlider != null) SoundSlider.onValueChanged.RemoveListener(UpdateSoundVolume);
         if (MusicSlider != null) MusicSlider.onValueChanged.RemoveListener(UpdateMusicVolume);
     }

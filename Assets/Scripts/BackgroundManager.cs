@@ -56,7 +56,7 @@ public class BackgroundManager : MonoBehaviour
 
     private void Start()
     {
-        YandexGame.GetDataEvent += OnDataLoaded;
+        SDKWrapper.GetDataEvent += OnDataLoaded;
         SetupButtonListeners();
         UpdatePlayerCoins();
         LoadCurrentBackground();
@@ -74,7 +74,7 @@ public class BackgroundManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        YandexGame.GetDataEvent -= OnDataLoaded;
+        SDKWrapper.GetDataEvent -= OnDataLoaded;
     }
 
     private void OnDataLoaded()
@@ -104,8 +104,8 @@ public class BackgroundManager : MonoBehaviour
         }
 
         // Разблокируем первый фон
-        YandexGame.savesData.unlockedBackgrounds[0] = true;
-        YandexGame.SaveProgress();
+        SDKWrapper.savesData.unlockedBackgrounds[0] = true;
+        SDKWrapper.SaveProgress();
     }
 
     private void SetupButtonListeners()
@@ -129,7 +129,7 @@ public class BackgroundManager : MonoBehaviour
     private void UpdateBackgroundItemUI(BackgroundItem item)
     {
         bool isUnlocked = IsBackgroundUnlocked(item.id);
-        bool isActive = item.id == YandexGame.savesData.currentBackgroundId;
+        bool isActive = item.id == SDKWrapper.savesData.currentBackgroundId;
 
         if (item.priceText != null)
         {
@@ -190,8 +190,8 @@ public class BackgroundManager : MonoBehaviour
         if (ResourceManager.Instance != null && ResourceManager.Instance.SpendCoins(selectedBackground.price))
         {
             int backgroundId = int.Parse(selectedBackground.id);
-            YandexGame.savesData.unlockedBackgrounds[backgroundId] = true;
-            YandexGame.SaveProgress();
+            SDKWrapper.savesData.unlockedBackgrounds[backgroundId] = true;
+            SDKWrapper.SaveProgress();
             SetCurrentBackground(selectedBackground.id);
             UpdatePlayerCoins();
             Debug.Log($"Фон {selectedBackground.id} куплен");
@@ -242,13 +242,13 @@ public class BackgroundManager : MonoBehaviour
 
     private void LoadCurrentBackground()
     {
-        SetCurrentBackground(YandexGame.savesData.currentBackgroundId);
+        SetCurrentBackground(SDKWrapper.savesData.currentBackgroundId);
     }
 
     public void SetCurrentBackground(string backgroundId)
     {
-        YandexGame.savesData.currentBackgroundId = backgroundId;
-        YandexGame.SaveProgress();
+        SDKWrapper.savesData.currentBackgroundId = backgroundId;
+        SDKWrapper.SaveProgress();
 
         UpdateAllBackgroundUI();
         Debug.Log($"Текущий фон изменен на {backgroundId}");
@@ -257,7 +257,7 @@ public class BackgroundManager : MonoBehaviour
 
     public string GetCurrentBackgroundId()
     {
-        return YandexGame.savesData.currentBackgroundId;
+        return SDKWrapper.savesData.currentBackgroundId;
     }
 
     public BackgroundItem GetBackgroundItem(string id)
@@ -268,14 +268,14 @@ public class BackgroundManager : MonoBehaviour
     public bool IsBackgroundUnlocked(string id)
     {
         int backgroundId = int.Parse(id);
-        return YandexGame.savesData.unlockedBackgrounds[backgroundId];
+        return SDKWrapper.savesData.unlockedBackgrounds[backgroundId];
     }
 
     public void UnlockBackgroundFromReward(string backgroundId)
     {
         int id = int.Parse(backgroundId);
-        YandexGame.savesData.unlockedBackgrounds[id] = true;
-        YandexGame.SaveProgress();
+        SDKWrapper.savesData.unlockedBackgrounds[id] = true;
+        SDKWrapper.SaveProgress();
         var background = backgroundItems.Find(b => b.id == backgroundId);
         if (background != null)
         {
@@ -287,15 +287,15 @@ public class BackgroundManager : MonoBehaviour
 
     public void ResetBackgrounds()
     {
-        for (int i = 1; i < YandexGame.savesData.unlockedBackgrounds.Length; i++)
+        for (int i = 1; i < SDKWrapper.savesData.unlockedBackgrounds.Length; i++)
         {
-            YandexGame.savesData.unlockedBackgrounds[i] = false;
+            SDKWrapper.savesData.unlockedBackgrounds[i] = false;
         }
 
-        YandexGame.savesData.currentBackgroundId = "0";
-        YandexGame.SaveProgress();
+        SDKWrapper.savesData.currentBackgroundId = "0";
+        SDKWrapper.SaveProgress();
 
-        SetCurrentBackground(YandexGame.savesData.currentBackgroundId);
+        SetCurrentBackground(SDKWrapper.savesData.currentBackgroundId);
         UpdateAllBackgroundUI();
         Debug.Log("Все фоны сброшены, кроме начального");
         OnBackgroundsUpdated?.Invoke();

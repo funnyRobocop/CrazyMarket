@@ -37,12 +37,12 @@ public class BoosterData : MonoBehaviour
 
     private void Start()
     {
-        YandexGame.GetDataEvent += OnDataLoaded;
+        SDKWrapper.GetDataEvent += OnDataLoaded;
     }
 
     private void OnDestroy()
     {
-        YandexGame.GetDataEvent -= OnDataLoaded;
+        SDKWrapper.GetDataEvent -= OnDataLoaded;
     }
 
     private void OnDataLoaded()
@@ -52,26 +52,26 @@ public class BoosterData : MonoBehaviour
 
     private void InitializeBoosterData()
     {
-        // Инициализация данных о бустерах из YandexGame.savesData
+        // Инициализация данных о бустерах из SDKWrapper.savesData
         // Если данных нет, устанавливаем значения по умолчанию
         for (int i = 0; i < boosters.Count; i++)
         {
-            if (i >= YandexGame.savesData.boosterQuantities.Length)
+            if (i >= SDKWrapper.savesData.boosterQuantities.Length)
             {
-                Debug.LogError($"Booster index {i} is out of range in YandexGame.savesData.boosterQuantities");
+                Debug.LogError($"Booster index {i} is out of range in SDKWrapper.savesData.boosterQuantities");
                 continue;
             }
-            if (YandexGame.savesData.boosterQuantities[i] == 0)
+            if (SDKWrapper.savesData.boosterQuantities[i] == 0)
             {
-                YandexGame.savesData.boosterQuantities[i] = 0;
+                SDKWrapper.savesData.boosterQuantities[i] = 0;
             }
         }
-        YandexGame.SaveProgress();
+        SDKWrapper.SaveProgress();
     }
 
     public void SaveBoosterData()
     {
-        YandexGame.SaveProgress();
+        SDKWrapper.SaveProgress();
     }
 
     public BoosterInfo GetBoosterData(BoosterType type)
@@ -82,42 +82,42 @@ public class BoosterData : MonoBehaviour
     public int GetBoosterQuantity(BoosterType type)
     {
         int index = (int)type;
-        if (index < 0 || index >= YandexGame.savesData.boosterQuantities.Length)
+        if (index < 0 || index >= SDKWrapper.savesData.boosterQuantities.Length)
         {
             Debug.LogError($"Invalid booster type index: {index}");
             return 0;
         }
-        return YandexGame.savesData.boosterQuantities[index];
+        return SDKWrapper.savesData.boosterQuantities[index];
     }
 
     public void AddBooster(BoosterType type, int amount)
     {
         int index = (int)type;
-        if (index < 0 || index >= YandexGame.savesData.boosterQuantities.Length)
+        if (index < 0 || index >= SDKWrapper.savesData.boosterQuantities.Length)
         {
             Debug.LogError($"Invalid booster type index: {index}");
             return;
         }
-        YandexGame.savesData.boosterQuantities[index] += amount;
+        SDKWrapper.savesData.boosterQuantities[index] += amount;
         SaveBoosterData();
     }
 
     public bool UseBooster(BoosterType type)
     {
         int index = (int)type;
-        if (index < 0 || index >= YandexGame.savesData.boosterQuantities.Length)
+        if (index < 0 || index >= SDKWrapper.savesData.boosterQuantities.Length)
         {
             Debug.LogError($"Invalid booster type index: {index}");
             return false;
         }
-        if (YandexGame.savesData.boosterQuantities[index] > 0)
+        if (SDKWrapper.savesData.boosterQuantities[index] > 0)
         {
-            YandexGame.savesData.boosterQuantities[index]--;
+            SDKWrapper.savesData.boosterQuantities[index]--;
             SaveBoosterData();
-            Debug.Log($"Использован бустер {type}. Осталось: {YandexGame.savesData.boosterQuantities[index]}");
+            Debug.Log($"Использован бустер {type}. Осталось: {SDKWrapper.savesData.boosterQuantities[index]}");
             return true;
         }
-        Debug.Log($"Не удалось использовать бустер {type}. Количество: {YandexGame.savesData.boosterQuantities[index]}");
+        Debug.Log($"Не удалось использовать бустер {type}. Количество: {SDKWrapper.savesData.boosterQuantities[index]}");
         return false;
     }
 }

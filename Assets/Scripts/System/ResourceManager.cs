@@ -8,10 +8,10 @@ public class ResourceManager : MonoBehaviour
     [SerializeField] private int maxLives = 10;
     [SerializeField] private float liveRegenTimeInMinutes = 30f;
 
-    public int CurrentLives => YandexGame.savesData.currentLives;
-    public int Stars => YandexGame.savesData.stars;
-    public int Coins => YandexGame.savesData.coins;
-    public string CurrentBackgroundId => YandexGame.savesData.currentBackgroundId;
+    public int CurrentLives => SDKWrapper.savesData.currentLives;
+    public int Stars => SDKWrapper.savesData.stars;
+    public int Coins => SDKWrapper.savesData.coins;
+    public string CurrentBackgroundId => SDKWrapper.savesData.currentBackgroundId;
 
     private bool isInitialized = false;
 
@@ -41,8 +41,8 @@ public class ResourceManager : MonoBehaviour
 
     private void Start()
     {
-        YandexGame.GetDataEvent += OnDataLoaded;
-        if (YandexGame.SDKEnabled)
+        SDKWrapper.GetDataEvent += OnDataLoaded;
+        if (SDKWrapper.SDKEnabled)
         {
             OnDataLoaded();
         }
@@ -50,7 +50,7 @@ public class ResourceManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        YandexGame.GetDataEvent -= OnDataLoaded;
+        SDKWrapper.GetDataEvent -= OnDataLoaded;
     }
 
     private void OnDataLoaded()
@@ -62,61 +62,61 @@ public class ResourceManager : MonoBehaviour
 
     private void InitializeResources()
     {
-        if (YandexGame.savesData.isFirstSession)
+        if (SDKWrapper.savesData.isFirstSession)
         {
-            YandexGame.savesData.currentLives = maxLives;
-            YandexGame.savesData.maxLives = maxLives;
-            YandexGame.savesData.stars = 0;
-            YandexGame.savesData.coins = 0;
-            YandexGame.savesData.currentBackgroundId = "0";
-            YandexGame.savesData.lastLiveRegenTimeTicks = DateTime.Now.Ticks;
-            YandexGame.savesData.isFirstSession = false;
-            YandexGame.SaveProgress();
+            SDKWrapper.savesData.currentLives = maxLives;
+            SDKWrapper.savesData.maxLives = maxLives;
+            SDKWrapper.savesData.stars = 0;
+            SDKWrapper.savesData.coins = 0;
+            SDKWrapper.savesData.currentBackgroundId = "0";
+            SDKWrapper.savesData.lastLiveRegenTimeTicks = DateTime.Now.Ticks;
+            SDKWrapper.savesData.isFirstSession = false;
+            SDKWrapper.SaveProgress();
         }
     }
 
     public void SetCurrentBackground(string backgroundId)
     {
         if (!isInitialized) return;
-        YandexGame.savesData.currentBackgroundId = backgroundId;
-        YandexGame.SaveProgress();
+        SDKWrapper.savesData.currentBackgroundId = backgroundId;
+        SDKWrapper.SaveProgress();
     }
 
     public void SpendLive()
     {
         if (!isInitialized) return;
-        if (YandexGame.savesData.currentLives > 0)
+        if (SDKWrapper.savesData.currentLives > 0)
         {
-            YandexGame.savesData.currentLives--;
-            YandexGame.SaveProgress();
+            SDKWrapper.savesData.currentLives--;
+            SDKWrapper.SaveProgress();
         }
     }
 
     public void AddStars(int amount)
     {
         if (!isInitialized) return;
-        YandexGame.savesData.stars += amount;
-        YandexGame.SaveProgress();
-        if (YandexGame.auth)
+        SDKWrapper.savesData.stars += amount;
+        SDKWrapper.SaveProgress();
+        if (SDKWrapper.isAuth)
 {
-        YandexGame.NewLeaderboardScores("StarsLeaderboard", YandexGame.savesData.stars);
+        SDKWrapper.NewLeaderboardScores("StarsLeaderboard", SDKWrapper.savesData.stars);
 }
     }
 
     public void AddCoins(int amount)
     {
         if (!isInitialized) return;
-        YandexGame.savesData.coins += amount;
-        YandexGame.SaveProgress();
+        SDKWrapper.savesData.coins += amount;
+        SDKWrapper.SaveProgress();
     }
 
     public bool SpendCoins(int amount)
     {
         if (!isInitialized) return false;
-        if (YandexGame.savesData.coins >= amount)
+        if (SDKWrapper.savesData.coins >= amount)
         {
-            YandexGame.savesData.coins -= amount;
-            YandexGame.SaveProgress();
+            SDKWrapper.savesData.coins -= amount;
+            SDKWrapper.SaveProgress();
             return true;
         }
         return false;
@@ -125,17 +125,17 @@ public class ResourceManager : MonoBehaviour
     private void RegenerateLive()
     {
         if (!isInitialized) return;
-        if (YandexGame.savesData.currentLives < YandexGame.savesData.maxLives)
+        if (SDKWrapper.savesData.currentLives < SDKWrapper.savesData.maxLives)
         {
-            DateTime lastRegenTime = new DateTime(YandexGame.savesData.lastLiveRegenTimeTicks);
+            DateTime lastRegenTime = new DateTime(SDKWrapper.savesData.lastLiveRegenTimeTicks);
             TimeSpan timeSinceLastRegen = DateTime.Now - lastRegenTime;
-            int livesToRegen = Mathf.Min(YandexGame.savesData.maxLives - YandexGame.savesData.currentLives,
+            int livesToRegen = Mathf.Min(SDKWrapper.savesData.maxLives - SDKWrapper.savesData.currentLives,
                                          Mathf.FloorToInt((float)timeSinceLastRegen.TotalMinutes / liveRegenTimeInMinutes));
             if (livesToRegen > 0)
             {
-                YandexGame.savesData.currentLives += livesToRegen;
-                YandexGame.savesData.lastLiveRegenTimeTicks = DateTime.Now.Ticks;
-                YandexGame.SaveProgress();
+                SDKWrapper.savesData.currentLives += livesToRegen;
+                SDKWrapper.savesData.lastLiveRegenTimeTicks = DateTime.Now.Ticks;
+                SDKWrapper.SaveProgress();
             }
         }
     }
@@ -143,7 +143,7 @@ public class ResourceManager : MonoBehaviour
     public void ResetAllProgress()
     {
         if (!isInitialized) return;
-        YandexGame.ResetSaveProgress();
+        SDKWrapper.ResetSaveProgress();
         InitializeResources();
         Debug.Log("Весь прогресс был сброшен.");
     }
@@ -151,12 +151,12 @@ public class ResourceManager : MonoBehaviour
     public void SetCurrentLevel(int level)
     {
         if (!isInitialized) return;
-        YandexGame.savesData.currentLevel = level;
-        YandexGame.SaveProgress();
+        SDKWrapper.savesData.currentLevel = level;
+        SDKWrapper.SaveProgress();
     }
 
     public int GetCurrentLevel()
     {
-        return isInitialized ? YandexGame.savesData.currentLevel : 1;
+        return isInitialized ? SDKWrapper.savesData.currentLevel : 1;
     }
 }

@@ -15,7 +15,7 @@ public class LevelTimer : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < YandexGame.savesData.currentLevel; i++)
+        for (int i = 0; i < SDKWrapper.savesData.currentLevel; i++)
         {
             if (totalTime >= 60f)
             {

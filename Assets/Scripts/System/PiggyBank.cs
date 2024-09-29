@@ -42,8 +42,8 @@ public class PiggyBank : MonoBehaviour
 
     private void Start()
     {
-        YandexGame.GetDataEvent += OnDataLoaded;
-        if (YandexGame.SDKEnabled)
+        SDKWrapper.GetDataEvent += OnDataLoaded;
+        if (SDKWrapper.SDKEnabled)
         {
             OnDataLoaded();
         }
@@ -52,7 +52,7 @@ public class PiggyBank : MonoBehaviour
     private void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
-        YandexGame.GetDataEvent -= OnDataLoaded;
+        SDKWrapper.GetDataEvent -= OnDataLoaded;
     }
 
     private void OnDataLoaded()
@@ -84,19 +84,19 @@ public class PiggyBank : MonoBehaviour
     public void AddCoinsForLevelCompletion()
     {
         if (!isInitialized) return;
-        YandexGame.savesData.piggyBankCoins += coinsPerLevel;
-        YandexGame.SaveProgress();
+        SDKWrapper.savesData.piggyBankCoins += coinsPerLevel;
+        SDKWrapper.SaveProgress();
         UpdateUI();
     }
 
     private void CollectCoins()
     {
         if (!isInitialized) return;
-        if (YandexGame.savesData.piggyBankCoins >= coinsToCollect)
+        if (SDKWrapper.savesData.piggyBankCoins >= coinsToCollect)
         {
-            ResourceManager.Instance.AddCoins(YandexGame.savesData.piggyBankCoins);
-            YandexGame.savesData.piggyBankCoins = 0;
-            YandexGame.SaveProgress();
+            ResourceManager.Instance.AddCoins(SDKWrapper.savesData.piggyBankCoins);
+            SDKWrapper.savesData.piggyBankCoins = 0;
+            SDKWrapper.SaveProgress();
             UpdateUI();
         }
     }
@@ -105,16 +105,16 @@ public class PiggyBank : MonoBehaviour
     {
         if (!isInitialized) return;
         if (coinsAmountText != null)
-            coinsAmountText.text = YandexGame.savesData.piggyBankCoins.ToString();
+            coinsAmountText.text = SDKWrapper.savesData.piggyBankCoins.ToString();
         if (collectButton != null)
-            collectButton.interactable = YandexGame.savesData.piggyBankCoins >= coinsToCollect;
+            collectButton.interactable = SDKWrapper.savesData.piggyBankCoins >= coinsToCollect;
     }
 
     public void ResetPiggyBank()
     {
         if (!isInitialized) return;
-        YandexGame.savesData.piggyBankCoins = 0;
-        YandexGame.SaveProgress();
+        SDKWrapper.savesData.piggyBankCoins = 0;
+        SDKWrapper.SaveProgress();
         UpdateUI();
     }
 

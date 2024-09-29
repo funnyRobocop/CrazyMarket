@@ -55,7 +55,7 @@ public class AvatarManager : MonoBehaviour
 
     private void Start()
     {
-        YandexGame.GetDataEvent += OnDataLoaded;
+        SDKWrapper.GetDataEvent += OnDataLoaded;
         SetupButtonListeners();
         UpdatePlayerCoins();
         LoadCurrentAvatar();
@@ -72,7 +72,7 @@ public class AvatarManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        YandexGame.GetDataEvent -= OnDataLoaded;
+        SDKWrapper.GetDataEvent -= OnDataLoaded;
     }
 
     private void OnDataLoaded()
@@ -102,8 +102,8 @@ public class AvatarManager : MonoBehaviour
         }
 
         // Разблокируем первый аватар
-        YandexGame.savesData.unlockedAvatars[0] = true;
-        YandexGame.SaveProgress();
+        SDKWrapper.savesData.unlockedAvatars[0] = true;
+        SDKWrapper.SaveProgress();
     }
 
     private void SetupButtonListeners()
@@ -126,8 +126,8 @@ public class AvatarManager : MonoBehaviour
 
     private void UpdateAvatarUI(AvatarItem item)
     {
-        bool isUnlocked = YandexGame.savesData.unlockedAvatars[int.Parse(item.id)];
-        bool isActive = item.id == YandexGame.savesData.currentAvatarId;
+        bool isUnlocked = SDKWrapper.savesData.unlockedAvatars[int.Parse(item.id)];
+        bool isActive = item.id == SDKWrapper.savesData.currentAvatarId;
 
         if (item.checkmark != null) item.checkmark.SetActive(isActive);
         if (item.buyButton != null)
@@ -147,7 +147,7 @@ public class AvatarManager : MonoBehaviour
         }
 
         selectedAvatar = avatarItems[index];
-        bool isUnlocked = YandexGame.savesData.unlockedAvatars[int.Parse(selectedAvatar.id)];
+        bool isUnlocked = SDKWrapper.savesData.unlockedAvatars[int.Parse(selectedAvatar.id)];
 
         if (isUnlocked)
         {
@@ -184,8 +184,8 @@ public class AvatarManager : MonoBehaviour
         if (ResourceManager.Instance != null && ResourceManager.Instance.SpendCoins(selectedAvatar.price))
         {
             int avatarId = int.Parse(selectedAvatar.id);
-            YandexGame.savesData.unlockedAvatars[avatarId] = true;
-            YandexGame.SaveProgress();
+            SDKWrapper.savesData.unlockedAvatars[avatarId] = true;
+            SDKWrapper.SaveProgress();
             UpdateAvatarUI(selectedAvatar);
             UpdatePlayerCoins();
             Debug.Log($"Аватар {selectedAvatar.id} куплен");
@@ -235,13 +235,13 @@ public class AvatarManager : MonoBehaviour
 
     private void LoadCurrentAvatar()
     {
-        SetCurrentAvatar(YandexGame.savesData.currentAvatarId);
+        SetCurrentAvatar(SDKWrapper.savesData.currentAvatarId);
     }
 
     public void SetCurrentAvatar(string avatarId)
     {
-        YandexGame.savesData.currentAvatarId = avatarId;
-        YandexGame.SaveProgress();
+        SDKWrapper.savesData.currentAvatarId = avatarId;
+        SDKWrapper.SaveProgress();
 
         var newAvatar = avatarItems.Find(a => a.id == avatarId);
         if (newAvatar != null && newAvatar.avatarSprite != null && currentAvatarImage != null)
@@ -258,20 +258,20 @@ public class AvatarManager : MonoBehaviour
 
     public Sprite GetCurrentAvatarSprite()
     {
-        var currentAvatar = avatarItems.Find(a => a.id == YandexGame.savesData.currentAvatarId);
+        var currentAvatar = avatarItems.Find(a => a.id == SDKWrapper.savesData.currentAvatarId);
         if (currentAvatar != null && currentAvatar.avatarSprite != null)
         {
             return currentAvatar.avatarSprite;
         }
-        Debug.LogWarning($"AvatarManager: Не удалось найти спрайт для текущего аватара {YandexGame.savesData.currentAvatarId}");
+        Debug.LogWarning($"AvatarManager: Не удалось найти спрайт для текущего аватара {SDKWrapper.savesData.currentAvatarId}");
         return null;
     }
 
     public void UnlockAvatarFromReward(string avatarId)
     {
         int id = int.Parse(avatarId);
-        YandexGame.savesData.unlockedAvatars[id] = true;
-        YandexGame.SaveProgress();
+        SDKWrapper.savesData.unlockedAvatars[id] = true;
+        SDKWrapper.SaveProgress();
         var avatar = avatarItems.Find(a => a.id == avatarId);
         if (avatar != null)
         {
@@ -282,15 +282,15 @@ public class AvatarManager : MonoBehaviour
 
     public void ResetAvatars()
     {
-        for (int i = 1; i < YandexGame.savesData.unlockedAvatars.Length; i++)
+        for (int i = 1; i < SDKWrapper.savesData.unlockedAvatars.Length; i++)
         {
-            YandexGame.savesData.unlockedAvatars[i] = false;
+            SDKWrapper.savesData.unlockedAvatars[i] = false;
         }
 
-        YandexGame.savesData.currentAvatarId = "0";
-        YandexGame.SaveProgress();
+        SDKWrapper.savesData.currentAvatarId = "0";
+        SDKWrapper.SaveProgress();
 
-        SetCurrentAvatar(YandexGame.savesData.currentAvatarId);
+        SetCurrentAvatar(SDKWrapper.savesData.currentAvatarId);
         foreach (var item in avatarItems)
         {
             UpdateAvatarUI(item);

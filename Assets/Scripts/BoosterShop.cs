@@ -35,7 +35,7 @@ public class BoosterShop : MonoBehaviour
 
     private void Start()
     {
-        YandexGame.GetDataEvent += OnDataLoaded;
+        SDKWrapper.GetDataEvent += OnDataLoaded;
         SetupShopUI();
         UpdatePlayerCoinsDisplay();
 
@@ -51,7 +51,7 @@ public class BoosterShop : MonoBehaviour
 
     private void OnDestroy()
     {
-        YandexGame.GetDataEvent -= OnDataLoaded;
+        SDKWrapper.GetDataEvent -= OnDataLoaded;
     }
 
     private void OnDataLoaded()
@@ -133,7 +133,7 @@ public class BoosterShop : MonoBehaviour
     {
         if (playerCoinsText != null)
         {
-            playerCoinsText.text = $"{YandexGame.savesData.coins}";
+            playerCoinsText.text = $"{SDKWrapper.savesData.coins}";
         }
     }
 

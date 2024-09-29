@@ -16,7 +16,7 @@ public class LevelInfo_SO : ScriptableObject
     public List<InfoItemsList> GenerateItemList()
     {
         List<InfoItemsList> itemList = new List<InfoItemsList>();
-        int currentLevel = Mathf.Max(1, YandexGame.savesData.currentLevel);
+        int currentLevel = Mathf.Max(1, SDKWrapper.savesData.currentLevel);
 
         int totalItemsForLevel = Mathf.Min(minTotalItems + (currentLevel - 1) * itemIncrease, maxTotalItems);
 

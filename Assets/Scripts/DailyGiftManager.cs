@@ -42,7 +42,7 @@ public class DailyGiftManager : MonoBehaviour
 
     private void Start()
     {
-        YandexGame.GetDataEvent += OnDataLoaded;
+        SDKWrapper.GetDataEvent += OnDataLoaded;
         SetupButtons();
         UpdateGiftStatus();
         InvokeRepeating(nameof(UpdateGiftStatus), 0f, 1f);
@@ -50,7 +50,7 @@ public class DailyGiftManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        YandexGame.GetDataEvent -= OnDataLoaded;
+        SDKWrapper.GetDataEvent -= OnDataLoaded;
     }
 
     private void OnDataLoaded()
@@ -135,8 +135,8 @@ public class DailyGiftManager : MonoBehaviour
         ResourceManager.Instance.AddCoins(CoinRewardAmount);
         ShowRewardMessage($"Вы получили {CoinRewardAmount} монет!");
 
-        YandexGame.savesData.lastGiftTimestamp = DateTime.Now.ToString();
-        YandexGame.SaveProgress();
+        SDKWrapper.savesData.lastGiftTimestamp = DateTime.Now.ToString();
+        SDKWrapper.SaveProgress();
         SoundManager.Instance.PlaySound(claimGift);
 
         UpdateGiftStatus();
@@ -145,17 +145,17 @@ public class DailyGiftManager : MonoBehaviour
 
     public bool CanClaimGift()
     {
-        if (string.IsNullOrEmpty(YandexGame.savesData.lastGiftTimestamp)) return true;
+        if (string.IsNullOrEmpty(SDKWrapper.savesData.lastGiftTimestamp)) return true;
 
-        DateTime lastGiftTime = DateTime.Parse(YandexGame.savesData.lastGiftTimestamp);
+        DateTime lastGiftTime = DateTime.Parse(SDKWrapper.savesData.lastGiftTimestamp);
         return (DateTime.Now - lastGiftTime).TotalHours >= 24;
     }
 
     private TimeSpan GetTimeUntilNextGift()
     {
-        if (string.IsNullOrEmpty(YandexGame.savesData.lastGiftTimestamp)) return TimeSpan.Zero;
+        if (string.IsNullOrEmpty(SDKWrapper.savesData.lastGiftTimestamp)) return TimeSpan.Zero;
 
-        DateTime lastGiftTime = DateTime.Parse(YandexGame.savesData.lastGiftTimestamp);
+        DateTime lastGiftTime = DateTime.Parse(SDKWrapper.savesData.lastGiftTimestamp);
         DateTime nextGiftTime = lastGiftTime.AddHours(24);
         TimeSpan timeUntilNext = nextGiftTime - DateTime.Now;
         return timeUntilNext > TimeSpan.Zero ? timeUntilNext : TimeSpan.Zero;
@@ -175,8 +175,8 @@ public class DailyGiftManager : MonoBehaviour
 
     public void ResetDailyGift()
     {
-        YandexGame.savesData.lastGiftTimestamp = null;
-        YandexGame.SaveProgress();
+        SDKWrapper.savesData.lastGiftTimestamp = null;
+        SDKWrapper.SaveProgress();
         UpdateGiftStatus();
     }
 

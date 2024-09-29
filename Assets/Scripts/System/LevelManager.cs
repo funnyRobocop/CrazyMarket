@@ -56,7 +56,7 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        YandexGame.GetDataEvent += OnDataLoaded;
+        SDKWrapper.GetDataEvent += OnDataLoaded;
         InitializeUI();
         InitializeLevelTimer();
         CalculateStarTimings();
@@ -75,7 +75,7 @@ public class LevelManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        YandexGame.GetDataEvent -= OnDataLoaded;
+        SDKWrapper.GetDataEvent -= OnDataLoaded;
     }
 
     private void OnDataLoaded()
@@ -126,7 +126,7 @@ public class LevelManager : MonoBehaviour
     {
         if (levelBackgroundRenderer != null && ResourceManager.Instance != null)
         {
-            string backgroundId = YandexGame.savesData.currentBackgroundId;
+            string backgroundId = SDKWrapper.savesData.currentBackgroundId;
             Sprite backgroundSprite = GetBackgroundSpriteById(backgroundId);
             if (backgroundSprite != null)
             {
@@ -204,8 +204,8 @@ public class LevelManager : MonoBehaviour
                 Debug.LogError("PiggyBankManager.Instance равен null! Невозможно добавить монеты в копилку.");
             }
 
-            YandexGame.savesData.currentLevel++;
-            YandexGame.SaveProgress();
+            SDKWrapper.savesData.currentLevel++;
+            SDKWrapper.SaveProgress();
 
             PauseGame();
         }
@@ -307,7 +307,7 @@ public class LevelManager : MonoBehaviour
     {
         if (levelText != null)
         {
-            levelText.text = "Уровень " + YandexGame.savesData.currentLevel;
+            levelText.text = "Уровень " + SDKWrapper.savesData.currentLevel;
         }
         else
         {

@@ -38,7 +38,7 @@ public class TipManager : MonoBehaviour
 
     private void UpdateTipPanelVisibility()
     {
-        if (YandexGame.savesData.currentLevel <= 10)
+        if (SDKWrapper.savesData.currentLevel <= 10)
         {
             if (tipPanel != null)
             {
@@ -57,7 +57,7 @@ public class TipManager : MonoBehaviour
 
     private void ShowTip()
     {
-        if (YandexGame.savesData.currentLevel <= 10)
+        if (SDKWrapper.savesData.currentLevel <= 10)
         {
             tipPanel.SetActive(true);
             PauseGame();

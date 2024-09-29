@@ -36,14 +36,14 @@ public class MenuManager : MonoBehaviour
 
     private void Start()
     {
-        YandexGame.GetDataEvent += OnDataLoaded;
+        SDKWrapper.GetDataEvent += OnDataLoaded;
         SetupButtonListeners();
         InitializeGame();
     }
 
     private void OnDestroy()
     {
-        YandexGame.GetDataEvent -= OnDataLoaded;
+        SDKWrapper.GetDataEvent -= OnDataLoaded;
     }
 
     private void SetupButtonListeners()
@@ -74,10 +74,10 @@ public class MenuManager : MonoBehaviour
 
 private void StartLevel()
 {
-    if (YandexGame.savesData.currentLevel <= 6)
+    if (SDKWrapper.savesData.currentLevel <= 6)
     {
         // До 6 уровня включительно загружаем сцены по порядку с 2 по 7
-        int sceneToLoad = YandexGame.savesData.currentLevel + 1; // +1 потому что уровни начинаются с 2
+        int sceneToLoad = SDKWrapper.savesData.currentLevel + 1; // +1 потому что уровни начинаются с 2
         SceneManager.LoadScene(sceneToLoad);
     }
     else
@@ -136,22 +136,22 @@ private void StartLevel()
     {
         if (levelText != null)
         {
-            levelText.text = "Играть уровень " + YandexGame.savesData.currentLevel;
+            levelText.text = "Играть уровень " + SDKWrapper.savesData.currentLevel;
         }
 
         if (livesText != null)
         {
-            livesText.text = "" + YandexGame.savesData.currentLives;
+            livesText.text = "" + SDKWrapper.savesData.currentLives;
         }
 
         if (starsText != null)
         {
-            starsText.text = "" + YandexGame.savesData.stars;
+            starsText.text = "" + SDKWrapper.savesData.stars;
         }
 
         if (coinsText != null)
         {
-            coinsText.text = "" + YandexGame.savesData.coins;
+            coinsText.text = "" + SDKWrapper.savesData.coins;
         }
     }
 

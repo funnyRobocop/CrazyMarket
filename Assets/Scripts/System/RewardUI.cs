@@ -45,9 +45,9 @@ public class RewardUI : MonoBehaviour
 
     public void UpdateUI()
     {
-        int totalStars = YandexGame.savesData.stars;
+        int totalStars = SDKWrapper.savesData.stars;
         bool isUnlocked = totalStars >= reward.starsRequired;
-        bool isClaimed = YandexGame.savesData.unlockedRewards[int.Parse(reward.id.Split('_')[1])];
+        bool isClaimed = SDKWrapper.savesData.unlockedRewards[int.Parse(reward.id.Split('_')[1])];
 
         rewardImage.gameObject.SetActive(true);
         lockImage.gameObject.SetActive(!isUnlocked);

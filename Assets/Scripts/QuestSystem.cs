@@ -26,12 +26,12 @@ public class QuestSystem : MonoBehaviour
 
     private void Start()
     {
-        YandexGame.GetDataEvent += OnDataLoaded;
+        SDKWrapper.GetDataEvent += OnDataLoaded;
     }
 
     private void OnDestroy()
     {
-        YandexGame.GetDataEvent -= OnDataLoaded;
+        SDKWrapper.GetDataEvent -= OnDataLoaded;
     }
 
     private void OnDataLoaded()
@@ -43,11 +43,11 @@ public class QuestSystem : MonoBehaviour
     public void CheckAndRefreshDailyQuests()
     {
         DateTime currentTime = DateTime.Now;
-        DateTime lastRefreshTime = string.IsNullOrEmpty(YandexGame.savesData.lastQuestRefreshTime) 
+        DateTime lastRefreshTime = string.IsNullOrEmpty(SDKWrapper.savesData.lastQuestRefreshTime) 
             ? DateTime.MinValue 
-            : DateTime.Parse(YandexGame.savesData.lastQuestRefreshTime);
+            : DateTime.Parse(SDKWrapper.savesData.lastQuestRefreshTime);
 
-        if (currentTime >= lastRefreshTime.AddHours(24) || YandexGame.savesData.activeQuestIds.Length == 0)
+        if (currentTime >= lastRefreshTime.AddHours(24) || SDKWrapper.savesData.activeQuestIds.Length == 0)
         {
             RefreshDailyQuests();
         }
@@ -55,47 +55,47 @@ public class QuestSystem : MonoBehaviour
 
     private void RefreshDailyQuests()
     {
-        YandexGame.savesData.activeQuestIds = new int[MAX_DAILY_QUESTS];
-        YandexGame.savesData.questProgress = new int[MAX_DAILY_QUESTS];
-        YandexGame.savesData.claimedRewards = new bool[MAX_DAILY_QUESTS];
+        SDKWrapper.savesData.activeQuestIds = new int[MAX_DAILY_QUESTS];
+        SDKWrapper.savesData.questProgress = new int[MAX_DAILY_QUESTS];
+        SDKWrapper.savesData.claimedRewards = new bool[MAX_DAILY_QUESTS];
 
         List<QuestData> availableQuests = new List<QuestData>(questDatabase.quests);
         for (int i = 0; i < MAX_DAILY_QUESTS && availableQuests.Count > 0; i++)
         {
             int randomIndex = UnityEngine.Random.Range(0, availableQuests.Count);
-            YandexGame.savesData.activeQuestIds[i] = availableQuests[randomIndex].id;
-            YandexGame.savesData.questProgress[i] = 0;
-            YandexGame.savesData.claimedRewards[i] = false;
+            SDKWrapper.savesData.activeQuestIds[i] = availableQuests[randomIndex].id;
+            SDKWrapper.savesData.questProgress[i] = 0;
+            SDKWrapper.savesData.claimedRewards[i] = false;
             availableQuests.RemoveAt(randomIndex);
         }
 
-        YandexGame.savesData.lastQuestRefreshTime = DateTime.Now.ToString();
-        YandexGame.SaveProgress();
+        SDKWrapper.savesData.lastQuestRefreshTime = DateTime.Now.ToString();
+        SDKWrapper.SaveProgress();
         Debug.Log("Daily quests refreshed. Next refresh at: " + DateTime.Now.AddHours(24));
     }
 
     public void UpdateQuestProgress(QuestType type, int progress = 1)
     {
-        for (int i = 0; i < YandexGame.savesData.activeQuestIds.Length; i++)
+        for (int i = 0; i < SDKWrapper.savesData.activeQuestIds.Length; i++)
         {
-            int questId = YandexGame.savesData.activeQuestIds[i];
+            int questId = SDKWrapper.savesData.activeQuestIds[i];
             QuestData quest = GetQuestById(questId);
-            if (quest != null && quest.type == type && !YandexGame.savesData.claimedRewards[i])
+            if (quest != null && quest.type == type && !SDKWrapper.savesData.claimedRewards[i])
             {
-                YandexGame.savesData.questProgress[i] = Mathf.Min(YandexGame.savesData.questProgress[i] + progress, quest.requiredProgress);
-                YandexGame.SaveProgress();
-                Debug.Log($"Updated quest {questId} progress: {YandexGame.savesData.questProgress[i]}/{quest.requiredProgress}");
+                SDKWrapper.savesData.questProgress[i] = Mathf.Min(SDKWrapper.savesData.questProgress[i] + progress, quest.requiredProgress);
+                SDKWrapper.SaveProgress();
+                Debug.Log($"Updated quest {questId} progress: {SDKWrapper.savesData.questProgress[i]}/{quest.requiredProgress}");
             }
         }
     }
 
     public int GetQuestProgress(int questId)
     {
-        for (int i = 0; i < YandexGame.savesData.activeQuestIds.Length; i++)
+        for (int i = 0; i < SDKWrapper.savesData.activeQuestIds.Length; i++)
         {
-            if (YandexGame.savesData.activeQuestIds[i] == questId)
+            if (SDKWrapper.savesData.activeQuestIds[i] == questId)
             {
-                return YandexGame.savesData.questProgress[i];
+                return SDKWrapper.savesData.questProgress[i];
             }
         }
         return 0;
@@ -105,9 +105,9 @@ public class QuestSystem : MonoBehaviour
     {
         CheckAndRefreshDailyQuests();
         List<QuestData> activeQuests = new List<QuestData>();
-        for (int i = 0; i < YandexGame.savesData.activeQuestIds.Length; i++)
+        for (int i = 0; i < SDKWrapper.savesData.activeQuestIds.Length; i++)
         {
-            QuestData quest = GetQuestById(YandexGame.savesData.activeQuestIds[i]);
+            QuestData quest = GetQuestById(SDKWrapper.savesData.activeQuestIds[i]);
             if (quest != null)
             {
                 activeQuests.Add(quest);
@@ -118,12 +118,12 @@ public class QuestSystem : MonoBehaviour
 
     public bool IsQuestCompleted(int questId)
     {
-        for (int i = 0; i < YandexGame.savesData.activeQuestIds.Length; i++)
+        for (int i = 0; i < SDKWrapper.savesData.activeQuestIds.Length; i++)
         {
-            if (YandexGame.savesData.activeQuestIds[i] == questId)
+            if (SDKWrapper.savesData.activeQuestIds[i] == questId)
             {
                 QuestData quest = GetQuestById(questId);
-                return quest != null && YandexGame.savesData.questProgress[i] >= quest.requiredProgress;
+                return quest != null && SDKWrapper.savesData.questProgress[i] >= quest.requiredProgress;
             }
         }
         return false;
@@ -131,11 +131,11 @@ public class QuestSystem : MonoBehaviour
 
     public bool IsRewardClaimed(int questId)
     {
-        for (int i = 0; i < YandexGame.savesData.activeQuestIds.Length; i++)
+        for (int i = 0; i < SDKWrapper.savesData.activeQuestIds.Length; i++)
         {
-            if (YandexGame.savesData.activeQuestIds[i] == questId)
+            if (SDKWrapper.savesData.activeQuestIds[i] == questId)
             {
-                return YandexGame.savesData.claimedRewards[i];
+                return SDKWrapper.savesData.claimedRewards[i];
             }
         }
         return false;
@@ -143,16 +143,16 @@ public class QuestSystem : MonoBehaviour
 
     public void ClaimReward(int questId)
     {
-        for (int i = 0; i < YandexGame.savesData.activeQuestIds.Length; i++)
+        for (int i = 0; i < SDKWrapper.savesData.activeQuestIds.Length; i++)
         {
-            if (YandexGame.savesData.activeQuestIds[i] == questId)
+            if (SDKWrapper.savesData.activeQuestIds[i] == questId)
             {
                 QuestData quest = GetQuestById(questId);
-                if (quest != null && IsQuestCompleted(questId) && !YandexGame.savesData.claimedRewards[i])
+                if (quest != null && IsQuestCompleted(questId) && !SDKWrapper.savesData.claimedRewards[i])
                 {
                     ResourceManager.Instance.AddCoins(quest.reward);
-                    YandexGame.savesData.claimedRewards[i] = true;
-                    YandexGame.SaveProgress();
+                    SDKWrapper.savesData.claimedRewards[i] = true;
+                    SDKWrapper.SaveProgress();
                     Debug.Log($"Claimed reward for quest {questId}: {quest.reward} coins");
                 }
                 break;
@@ -168,9 +168,9 @@ public class QuestSystem : MonoBehaviour
     public TimeSpan GetTimeUntilNextRefresh()
     {
         DateTime now = DateTime.Now;
-        DateTime lastRefreshTime = string.IsNullOrEmpty(YandexGame.savesData.lastQuestRefreshTime) 
+        DateTime lastRefreshTime = string.IsNullOrEmpty(SDKWrapper.savesData.lastQuestRefreshTime) 
             ? DateTime.MinValue 
-            : DateTime.Parse(YandexGame.savesData.lastQuestRefreshTime);
+            : DateTime.Parse(SDKWrapper.savesData.lastQuestRefreshTime);
         DateTime nextRefresh = lastRefreshTime.AddHours(24);
 
         if (nextRefresh <= now)
@@ -183,7 +183,7 @@ public class QuestSystem : MonoBehaviour
 
     private void LoadQuestProgress()
     {
-        // Данные уже загружены через YandexGame.savesData
+        // Данные уже загружены через SDKWrapper.savesData
         // Здесь можно добавить дополнительную логику, если необходимо
     }
 
@@ -195,26 +195,26 @@ public class QuestSystem : MonoBehaviour
     // Дополнительные методы для отладки или управления квестами
     public void DebugCompleteAllQuests()
     {
-        for (int i = 0; i < YandexGame.savesData.activeQuestIds.Length; i++)
+        for (int i = 0; i < SDKWrapper.savesData.activeQuestIds.Length; i++)
         {
-            QuestData quest = GetQuestById(YandexGame.savesData.activeQuestIds[i]);
+            QuestData quest = GetQuestById(SDKWrapper.savesData.activeQuestIds[i]);
             if (quest != null)
             {
-                YandexGame.savesData.questProgress[i] = quest.requiredProgress;
+                SDKWrapper.savesData.questProgress[i] = quest.requiredProgress;
             }
         }
-        YandexGame.SaveProgress();
+        SDKWrapper.SaveProgress();
         Debug.Log("All active quests completed (debug)");
     }
 
     public void DebugResetQuestProgress()
     {
-        for (int i = 0; i < YandexGame.savesData.questProgress.Length; i++)
+        for (int i = 0; i < SDKWrapper.savesData.questProgress.Length; i++)
         {
-            YandexGame.savesData.questProgress[i] = 0;
-            YandexGame.savesData.claimedRewards[i] = false;
+            SDKWrapper.savesData.questProgress[i] = 0;
+            SDKWrapper.savesData.claimedRewards[i] = false;
         }
-        YandexGame.SaveProgress();
+        SDKWrapper.SaveProgress();
         Debug.Log("All quest progress reset (debug)");
     }
 }

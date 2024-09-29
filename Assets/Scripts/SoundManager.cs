@@ -23,8 +23,8 @@ public class SoundManager : MonoBehaviour
         }
 
         // Загружаем сохраненную громкость
-        YandexGame.GetDataEvent += LoadVolume;
-        if (YandexGame.SDKEnabled)
+        SDKWrapper.GetDataEvent += LoadVolume;
+        if (SDKWrapper.SDKEnabled)
         {
             LoadVolume();
         }
@@ -39,7 +39,7 @@ public class SoundManager : MonoBehaviour
     {
         if (gameSounds != null)
         {
-            gameSounds.volume = YandexGame.savesData.soundVolume;
+            gameSounds.volume = SDKWrapper.savesData.soundVolume;
         }
     }
 
@@ -64,6 +64,6 @@ public class SoundManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        YandexGame.GetDataEvent -= LoadVolume;
+        SDKWrapper.GetDataEvent -= LoadVolume;
     }
 }

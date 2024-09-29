@@ -114,13 +114,13 @@ public class RewardsManager : MonoBehaviour
 
    public bool ClaimReward(Reward reward)
     {
-        if (YandexGame.savesData.stars < reward.starsRequired)
+        if (SDKWrapper.savesData.stars < reward.starsRequired)
         {
             Debug.LogWarning("Not enough stars to claim this reward!");
             return false;
         }
 
-        if (YandexGame.savesData.unlockedRewards[int.Parse(reward.id.Split('_')[1])])
+        if (SDKWrapper.savesData.unlockedRewards[int.Parse(reward.id.Split('_')[1])])
         {
             Debug.LogWarning("This reward has already been claimed!");
             return false;
@@ -129,23 +129,23 @@ public class RewardsManager : MonoBehaviour
         switch (reward.rewardType)
         {
             case RewardType.Coins:
-                YandexGame.savesData.coins += reward.coinAmount;
+                SDKWrapper.savesData.coins += reward.coinAmount;
                 Debug.Log($"Получено {reward.coinAmount} монет");
                 break;
             case RewardType.Background:
-                YandexGame.savesData.unlockedBackgrounds[reward.unlockIndex] = true;
+                SDKWrapper.savesData.unlockedBackgrounds[reward.unlockIndex] = true;
                 Debug.Log($"Разблокирован фон с индексом {reward.unlockIndex}");
                 break;
             case RewardType.CharacterIcon:
-                YandexGame.savesData.unlockedAvatars[reward.unlockIndex] = true;
+                SDKWrapper.savesData.unlockedAvatars[reward.unlockIndex] = true;
                 Debug.Log($"Разблокирована иконка персонажа с индексом {reward.unlockIndex}");
                 break;
         }
 
         int rewardIndex = int.Parse(reward.id.Split('_')[1]);
-        YandexGame.savesData.unlockedRewards[rewardIndex] = true;
+        SDKWrapper.savesData.unlockedRewards[rewardIndex] = true;
         SoundManager.Instance.PlaySound(claimReward);
-        YandexGame.SaveProgress();
+        SDKWrapper.SaveProgress();
 
         if (MenuManager.Instance != null)
         {
@@ -163,7 +163,7 @@ public class RewardsManager : MonoBehaviour
     {
         for (int i = 0; i < rewards.Count; i++)
         {
-            if (YandexGame.savesData.stars >= rewards[i].starsRequired && !YandexGame.savesData.unlockedRewards[i])
+            if (SDKWrapper.savesData.stars >= rewards[i].starsRequired && !SDKWrapper.savesData.unlockedRewards[i])
             {
                 return true;
             }
