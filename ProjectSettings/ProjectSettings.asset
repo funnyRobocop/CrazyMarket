@@ -805,11 +805,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: 36e9dfe6-93f5-4995-aed1-67bdde1604bb
+  cloudProjectId: 217cb224-0729-4ab8-916d-9bcb93be621c
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
   projectName: CrazyMarket
-  organizationId: anelich
+  organizationId: alexey-alikin-3654280
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
