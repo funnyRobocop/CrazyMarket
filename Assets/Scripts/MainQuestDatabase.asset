@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461267aa4019847afb56bbce9c937e4f, type: 3}
+  m_Name: MainQuestDatabase
+  m_EditorClassIdentifier: 
+  quests:
+  - id: 0
+    type: 0
+    description: "\u0417\u0430\u0439\u0442\u0438 \u0432 \u0438\u0433\u0440\u0443"
+    reward: 10
+    icon: {fileID: 21300000, guid: d646f349862184a2cb07e56f4718daab, type: 3}
+    requiredProgress: 1
+  - id: 1
+    type: 1
+    description: "\u0421\u043E\u0431\u0435\u0440\u0438 \u0444\u0440\u0443\u043A\u0442\u044B
+      1 \u0440\u0430\u0437"
+    reward: 5
+    icon: {fileID: 21300000, guid: 61dc75b43086b4b73aa83f2b76dbb8b7, type: 3}
+    requiredProgress: 1
+  - id: 2
+    type: 1
+    description: "\u0421\u043E\u0431\u0435\u0440\u0438 \u0444\u0440\u0443\u043A\u0442\u044B
+      5 \u0440\u0430\u0437"
+    reward: 10
+    icon: {fileID: 21300000, guid: 38fb512bea37b46d495df3f1dc8674df, type: 3}
+    requiredProgress: 5
+  - id: 3
+    type: 1
+    description: "\u0421\u043E\u0431\u0435\u0440\u0438 \u0444\u0440\u0443\u043A\u0442\u044B
+      30 \u0440\u0430\u0437"
+    reward: 15
+    icon: {fileID: 21300000, guid: 84cd5358143aa459298be3ad05776de9, type: 3}
+    requiredProgress: 30
+  - id: 4
+    type: 1
+    description: "\u0421\u043E\u0431\u0435\u0440\u0438 \u0444\u0440\u0443\u043A\u0442\u044B
+      100 \u0440\u0430\u0437"
+    reward: 80
+    icon: {fileID: 21300000, guid: 89b3e0ae5129c417c9f4e8ec2a3826d7, type: 3}
+    requiredProgress: 100
+  - id: 4
+    type: 1
+    description: "\u0421\u043E\u0431\u0435\u0440\u0438 \u0444\u0440\u0443\u043A\u0442\u044B
+      50 \u0440\u0430\u0437"
+    reward: 30
+    icon: {fileID: 21300000, guid: ae2176b1f744a4908902372efd5d84e9, type: 3}
+    requiredProgress: 50
