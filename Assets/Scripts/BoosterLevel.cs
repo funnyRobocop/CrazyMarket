@@ -48,7 +48,7 @@ public class BoosterLevel : MonoBehaviour
 
     private void InitializeLevelTimer()
     {
-        levelTimer = FindObjectOfType<LevelTimer>();
+        levelTimer = FindFirstObjectByType<LevelTimer>();
         if (levelTimer == null)
         {
             Debug.LogError("LevelTimer не найден на сцене!");

@@ -75,7 +75,7 @@ public class PlayerAvatar : MonoBehaviour
 
     public static void UpdateAllAvatars()
     {
-        PlayerAvatar[] allAvatars = FindObjectsOfType<PlayerAvatar>();
+        PlayerAvatar[] allAvatars = FindObjectsByType<PlayerAvatar>(FindObjectsSortMode.None);
         foreach (PlayerAvatar avatar in allAvatars)
         {
             avatar.UpdateAvatar();

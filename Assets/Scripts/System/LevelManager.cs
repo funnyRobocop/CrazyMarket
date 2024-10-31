@@ -97,7 +97,7 @@ public class LevelManager : MonoBehaviour
 
     private void InitializeLevelTimer()
     {
-        levelTimer = FindObjectOfType<LevelTimer>();
+        levelTimer = FindFirstObjectByType<LevelTimer>();
         if (levelTimer == null)
         {
             Debug.LogError("LevelTimer не найден на сцене!");
@@ -164,7 +164,7 @@ public class LevelManager : MonoBehaviour
 
     private bool AllFruitsCleared()
     {
-        return GameObject.FindObjectsOfType<DraggableItem>().Length == 0;
+        return FindObjectsByType<DraggableItem>(FindObjectsSortMode.None).Length == 0;
     }
 
     private IEnumerator ShowWinPanelDelayed()

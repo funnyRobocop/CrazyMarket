@@ -14,7 +14,7 @@ public class SavedData
     public int currentLives = 10;
     public int maxLives = 10;
     public int stars = 0;
-    public int coins = 0;
+    public int coins = 1000;
     public string currentBackgroundId = "0";
     public string currentAvatarId = "0";
     public long lastLiveRegenTimeTicks;

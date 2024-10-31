@@ -11,8 +11,8 @@ public class TipManager : MonoBehaviour
 
     private void Start()
     {
-        levelTimer = FindObjectOfType<LevelTimer>();
-        levelManager = FindObjectOfType<LevelManager>();
+        levelTimer = FindFirstObjectByType<LevelTimer>();
+        levelManager = FindFirstObjectByType<LevelManager>();
 
         if (levelTimer == null)
         {
