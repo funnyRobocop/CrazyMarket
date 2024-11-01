@@ -16,7 +16,8 @@ MonoBehaviour:
     m_Code: en
   m_SharedData: {fileID: 11400000, guid: 8a462a1e95ec61943a50e216b646fa12, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 5533848645101683086
   m_TableData:
   - m_Id: 293605150720
     m_Localized: MONEYBOX
@@ -45,7 +46,20 @@ MonoBehaviour:
   - m_Id: 5407074095104
     m_Localized: PLAY
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 5533848645101683086
+  - m_Id: 58715633553408
+    m_Localized: Play level {0}
+    m_Metadata:
+      m_Items:
+      - rid: 5533848645101683086
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 5533848645101683086
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 5407074095104
+        - id: 58715633553408

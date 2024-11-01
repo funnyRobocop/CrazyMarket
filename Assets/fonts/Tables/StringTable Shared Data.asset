@@ -43,6 +43,10 @@ MonoBehaviour:
     m_Key: mainmenu_play
     m_Metadata:
       m_Items: []
+  - m_Id: 58715633553408
+    m_Key: mainmenu_levelnumber
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

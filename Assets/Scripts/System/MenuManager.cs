@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using UnityEngine.Localization;
 
 public class MenuManager : MonoBehaviour
 {
@@ -9,12 +10,14 @@ public class MenuManager : MonoBehaviour
 
     [SerializeField] private Button playButton;
     [SerializeField] private Button questsButton;
+    [SerializeField] private LocalizedString levelLocalizedString;
     [SerializeField] private Text levelText;
     [SerializeField] private Text livesText;
     [SerializeField] private Text starsText;
     [SerializeField] private Text coinsText;
     [SerializeField] private GameObject questsPanel;
     [SerializeField] private GameObject settingsPanel;
+    [SerializeField] private LocaleSelector localeSelector;
 
     [Header("Red Dots")]
     [SerializeField] private Image PiggyRedDot;
@@ -32,7 +35,11 @@ public class MenuManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        Debug.Log(Application.systemLanguage);
+
+        /*if (Application.systemLanguage == SystemLanguage.Russian)
+            localeSelector.ChangeLocale(1);
+        else
+            localeSelector.ChangeLocale(0);*/
     }
 
     private void Start()
@@ -40,11 +47,12 @@ public class MenuManager : MonoBehaviour
         SDKWrapper.GetDataEvent += OnDataLoaded;
         SetupButtonListeners();
         InitializeGame();
+        levelLocalizedString.StringChanged += ChangeLevelText;
     }
-
     private void OnDestroy()
     {
         SDKWrapper.GetDataEvent -= OnDataLoaded;
+        levelLocalizedString.StringChanged -= ChangeLevelText;
     }
 
     private void SetupButtonListeners()
@@ -137,7 +145,8 @@ private void StartLevel()
     {
         if (levelText != null)
         {
-            levelText.text = "Играть уровень " + SDKWrapper.savesData.currentLevel;
+            levelLocalizedString.Arguments = new object[] { SDKWrapper.savesData.currentLevel.ToString() };
+            levelLocalizedString.RefreshString();
         }
 
         if (livesText != null)
@@ -155,6 +164,12 @@ private void StartLevel()
             coinsText.text = "" + SDKWrapper.savesData.coins;
         }
     }
+
+    private void ChangeLevelText(string value)
+    {
+        levelText.text = value;
+    }
+
 
     public void CheckRedDots()
     {

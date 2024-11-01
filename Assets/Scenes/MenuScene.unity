@@ -3248,16 +3248,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playButton: {fileID: 1736025537}
   questsButton: {fileID: 1045143250}
+  levelLocalizedString:
+    m_TableReference:
+      m_TableCollectionName: GUID:8a462a1e95ec61943a50e216b646fa12
+    m_TableEntryReference:
+      m_KeyId: 58715633553408
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   levelText: {fileID: 2139649619}
   livesText: {fileID: 878832188}
   starsText: {fileID: 1140918074}
   coinsText: {fileID: 1152995971}
   questsPanel: {fileID: 1795442208}
   settingsPanel: {fileID: 448290312}
+  localeSelector: {fileID: 1764311583}
   PiggyRedDot: {fileID: 1769450976}
   GiftRedDot: {fileID: 1144600866}
   QuestRedDot: {fileID: 2012075106}
   RewardsRedDot: {fileID: 1887717042}
+  references:
+    version: 2
+    RefIds: []
 --- !u!4 &384009585
 Transform:
   m_ObjectHideFlags: 0
@@ -12269,6 +12282,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66048505edbb7428c8588f1491c33f80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1764311582
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1764311584}
+  - component: {fileID: 1764311583}
+  m_Layer: 0
+  m_Name: --LanguageManager--
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1764311583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764311582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd0ad7f7a22f47f499d574a602c2898d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1764311584
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764311582}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1769450974
 GameObject:
   m_ObjectHideFlags: 0
@@ -17633,3 +17690,4 @@ SceneRoots:
   - {fileID: 127147364}
   - {fileID: 1023542762}
   - {fileID: 5415292409664480412}
+  - {fileID: 1764311584}
