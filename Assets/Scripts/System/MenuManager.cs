@@ -32,6 +32,7 @@ public class MenuManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        Debug.Log(Application.systemLanguage);
     }
 
     private void Start()

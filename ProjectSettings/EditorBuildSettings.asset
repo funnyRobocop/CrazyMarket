@@ -41,4 +41,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/AvatarLevel.unity
     guid: a9d03b8ec92ba450d9c5e7f1c43f715d
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 2a8bf0ffed1bc3d42ae28b0f64ca95f7, type: 2}
+    com.unity.localization.settings: {fileID: 11400000, guid: c81c7569005723e48b147f802f99198f, type: 2}
+  m_UseUCBPForAssetBundles: 0
